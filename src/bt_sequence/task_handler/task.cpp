@@ -28,7 +28,6 @@ Task::Task(double x, double y)
 	this->completed = false;
 }
 
-// Do somethinig about this maybe? What is impportant here?
 Task::~Task(){}
 
 
@@ -50,7 +49,10 @@ geometry_msgs::Pose Task::getPose()
 
 void Task::completeTask()
 {
+	// Move the geometry down. This should not \
+	be hard coded.
 	this->pose.position.z -= 1.4;
+
 	this->collision_object.primitive_poses.clear();
 	this->collision_object.primitive_poses.push_back(this->pose);
 	this->completed = true;
