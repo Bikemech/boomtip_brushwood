@@ -12,10 +12,11 @@
 int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "maintest");
-	// Using ros::Spin() will cause the method
-	// moveit::planning_interface::MoveGroupInterface()
-	// to block indefinetly.
-	// More than one thread will make programming acrobatics beyond my expertise neccessary.
+	/* Using ros::Spin() will cause the method
+	 * moveit::planning_interface::MoveGroupInterface()
+	 * to block indefinetly.
+	 * More than one thread will make programming acrobatics beyond my expertise neccessary.
+	 */
 
 	ros::AsyncSpinner spinner(1);
 	spinner.start();
@@ -30,6 +31,11 @@ int main(int argc, char** argv)
 	// // // // // // // // // // // // // // // //
 	// // // // // // // // // // // // // // // //
 
+
+	/*
+	 * Joint state works on UR_10 and UR_5
+	 */
+
 	std::map<std::string, double> joint_target_state{
 		{"shoulder_pan_joint", 0.0},
 		{"shoulder_lift_joint", -M_PI*2/3},
@@ -42,10 +48,9 @@ int main(int argc, char** argv)
 	group.setJointValueTarget(joint_target_state);
 	group.move();
 
-	// // // // // // // // // // // // // // // //
-	// // // // // // // // // // // // // // // //
-
-	// // // // // // // // // // // // // // // //
+	/* // // // // // // // // // // // // // // // //
+	//			Add collision objects.				//
+	// // // // // // // // // // // // // // // // */
 
 	std::vector<moveit_msgs::CollisionObject> collision_objects;
 
