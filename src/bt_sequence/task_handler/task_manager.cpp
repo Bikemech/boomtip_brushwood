@@ -63,10 +63,17 @@ void TaskManager::spawnObstaclesToScene()
 
 bool TaskManager::cycle()
 {
+	// This method is a bit messy because there are a lot of things going on here. \
+	This should be refactored to multiple methods to make it easier to follow.
+
+	// Return false if the queue is finished.
 	if (this->index == this->task_que.end()) return false;
 
+
+	// Check the status of the task next in queue.
 	if ((*(this->index)).getStatus())
 	{
+		// skip if the task is completed already.
 		std::cout << "skipped" << std::endl;
 		this->skip();
 		return true;
@@ -78,25 +85,35 @@ bool TaskManager::cycle()
 
 	geometry_msgs::Pose target_pose = this->get_target_position();
 
+	// Set pose target to move group
 	if (this->move_group->setPoseTarget(target_pose))
 		execution_status = this->move_group->move();
 
+	// if motion was succesfull proceed to initiate cartesian motion.
 	if (execution_status)
 	{
 		this->current_pose = this->target_pose;
-		cartesian_completion = this->cartesian_grasp();
 
+		// compute cartesian motion plan
+		cartesian_completion = this->cartesian_grasp();
 		std::cout << cartesian_completion << std::endl;
 
 	}
 
+	// Check if enough of the path is possible to complete.
 	if (cartesian_completion >= CARTESIAN_LIMIT)
 		execution_status = this->attempt_approach();
 
+	// if both steps are completed the task should also be completed.
 	if (execution_status && cartesian_completion >= CARTESIAN_LIMIT)
 	{
+		// update task status and task geometry.
 		(*(this->index)).completeTask();
+
+		// update the planning scene.
 		this->spawnTasksToScene();
+
+		// Flag for a second iteration trough the queue.
 		this->any_completions = true;
 	}
 
@@ -116,6 +133,7 @@ void TaskManager::autoCycle()
 
 	std::cout << "begin auto cycle" << std::endl;
 
+	// cycle until completion or iteration without mutation occurs.
 	while (this->cycle());
 
 	if (this->any_completions && this->unfinished_tasks())
@@ -179,6 +197,7 @@ double TaskManager::cartesian_grasp()
 	this->target_pose.position.z = CUT_HEIGHT;
 	way_points.push_back(this->target_pose);
 
+	// store computed cartesian path at the local motion_plan object.
 	return this->move_group->computeCartesianPath(way_points, 0.01, 0.0, this->motion_plan.trajectory_);
 }
 

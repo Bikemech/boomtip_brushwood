@@ -31,6 +31,6 @@ static const std::string PLANNING_GROUP = "manipulator";
 static const std::string MOTION_PLANNER = "RRTstarkConfigDefault";
 
 // The maximum time allowed for the planner
-static const double PLANNING_TIME = 1.0;
+static const double PLANNING_TIME = 3.0;
 
 #endif

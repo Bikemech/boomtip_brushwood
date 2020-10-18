@@ -8,7 +8,7 @@
 
 
 /* This class represents a task with associated geometry 
- *The properties of the geometry has some parameters in 
+ * The properties of the geometry has some parameters in 
  * in the config.h file and some propeties are hard coded.
  */
 
@@ -23,15 +23,15 @@ public:
 	moveit_msgs::CollisionObject getCollisionObject();
 	std::string getID();
 
-	// Returns 1 if task is completed.
+	// Returns true if task is completed.
 	bool getStatus();
 
 	// Sets private bool completed to True
 	void completeTask();
 
 private:
-	// Counts the number of instances of this class.
-	// Will be used to give all jobs a unique string id
+	// Counts the number of instances of this class. \
+	Will be used to give all jobs a unique string id
 	static int count;
 	std::string ID;
 

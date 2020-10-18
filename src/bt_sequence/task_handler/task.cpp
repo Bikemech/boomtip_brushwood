@@ -1,11 +1,12 @@
 #include "task.h"
 
-// initializes the counter to 0.
-// Remember it is a static variable.
+//	initializes the counter to 0. \
+	Note it is a static variable.
 int Task::count = 0;
 
 Task::Task(double x, double y)
 {
+	// Couple class instance with a unique name string.
 	this->ID = "task_" + std::to_string(this->count);
 	this->count++;
 	this->pose.position.x = x;
@@ -13,6 +14,7 @@ Task::Task(double x, double y)
 	this->pose.position.z = HEIGHT/2 - 0.45;
 	this->pose.orientation.w = 1.0;
 
+    // Couple moveit object with the same name string.
 	this->collision_object.id = this->ID;
 
 	shape_msgs::SolidPrimitive primitive;
@@ -49,8 +51,8 @@ geometry_msgs::Pose Task::getPose()
 
 void Task::completeTask()
 {
-	// Move the geometry down. This should not \
-	be hard coded.
+	// Move the geometry down. This should  be\
+	replaced with a parameter
 	this->pose.position.z -= 1.4;
 
 	this->collision_object.primitive_poses.clear();
