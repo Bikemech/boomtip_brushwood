@@ -16,7 +16,7 @@ static const double RADIUS = 0.04;
 static const double HEIGHT = 2.0;
 
 // The predetermined cutting height
-static const double CUT_HEIGHT = 0.3;
+static const double CUT_HEIGHT = 0.7;
 
 // cartesian approach travel distance required plus a tolerance.
 static const double EE_LEN = 0.2;
@@ -31,6 +31,6 @@ static const std::string PLANNING_GROUP = "manipulator";
 static const std::string MOTION_PLANNER = "RRTstarkConfigDefault";
 
 // The maximum time allowed for the planner
-static const double PLANNING_TIME = 3.0;
+static const double PLANNING_TIME = 10.0;
 
 #endif

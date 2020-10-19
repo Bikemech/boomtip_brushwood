@@ -170,6 +170,8 @@ geometry_msgs::Pose TaskManager::get_target_position()
 	
 
 
+	//	The following lines computes the position the end effector \
+		should stop at before the cartesian approach.
 	(this->target_pose.position).x = (x / norm) * (norm - EE_LEN);
 	(this->target_pose.position).y = (y / norm) * (norm - EE_LEN);
 	(this->target_pose).position.z = CUT_HEIGHT;
