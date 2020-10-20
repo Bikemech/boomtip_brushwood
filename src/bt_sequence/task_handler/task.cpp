@@ -23,7 +23,7 @@ Task::Task(double x, double y)
 	primitive.dimensions[0] = HEIGHT;
 	primitive.dimensions[1] = RADIUS;
 
-	// this->collision_object.operation = this->collision_object.ADD;
+	this->collision_object.operation = this->collision_object.ADD;
 	this->collision_object.primitives.push_back(primitive);
 	this->collision_object.primitive_poses.push_back(this->pose);
 
@@ -32,7 +32,7 @@ Task::Task(double x, double y)
 
 Task::~Task(){}
 
-
+// Associate a planning frame with the task.
 void Task::setPlanningFrame(moveit::planning_interface::MoveGroupInterface& move_group)
 {
 	this->collision_object.header.frame_id = move_group.getPlanningFrame();

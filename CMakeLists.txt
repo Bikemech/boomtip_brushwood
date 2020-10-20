@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_geometry_msgs
 )
 
+# Do not omit the catkin_package line even no parameters are passed
 catkin_package()
 
 ###########

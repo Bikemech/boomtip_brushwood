@@ -5,9 +5,7 @@
 #include "task_handler/task_manager.h"
 
 // The configuration for the tasks and the motion planner
-// is contained inside config.h for user friendlyness
 #include "task_handler/config.h"
-
 
 int main(int argc, char** argv)
 {
@@ -21,7 +19,7 @@ int main(int argc, char** argv)
 	ros::AsyncSpinner spinner(1);
 	spinner.start();
 
-
+	// PLANNING_GROUP and MOTION_PLANNER are constants from config.h
 	moveit::planning_interface::PlanningSceneInterface scene;
 	moveit::planning_interface::MoveGroupInterface group(PLANNING_GROUP);
 
@@ -34,6 +32,9 @@ int main(int argc, char** argv)
 
 	/*
 	 * Joint state works on UR_10 and UR_5
+	 * Will cause the program to throw an exception on other models.
+	 * Comment out group.setJointValueTarget and group.move
+	 * here and at the EOF to avoid crash when using other models.
 	 */
 
 	std::map<std::string, double> joint_target_state{
@@ -131,8 +132,6 @@ int main(int argc, char** argv)
 	collision_objects.push_back(mount);
 
 	scene.addCollisionObjects(collision_objects);
-
-	// // // // // // // // // // // // // // // //
 
 	// // // // // // // // // // // // // // // //
 	// // // // // // // // // // // // // // // //

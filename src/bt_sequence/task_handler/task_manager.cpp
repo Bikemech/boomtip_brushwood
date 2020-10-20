@@ -154,6 +154,9 @@ void TaskManager::resetCycle()
 	this->index = this->task_que.begin();
 }
 
+
+//	Compute the position to which the end effector should arrive \
+	to before vartesian approach.
 geometry_msgs::Pose TaskManager::get_target_position()
 {
 	geometry_msgs::Pose task_pose = (*(this->index)).getPose();
@@ -163,19 +166,23 @@ geometry_msgs::Pose TaskManager::get_target_position()
 
 	double norm = sqrt(pow(x, 2) + pow(y, 2));
 
-	// Use this to set the orientation of the end effector
+
+	// Use a quaternion to assign orientation as with RPY-parameters.
 	tf2::Quaternion q;
+
+	// Compute the alignment of the end effector in the xy-plane. \
+		Assume that the endeffector should always be parallel to the plane.
 	if (x >= 0) q.setRPY(0, 0, atan(y/x));
 	else q.setRPY(0, 0, atan(y/x) + M_PI);
 	
 
 
-	//	The following lines computes the position the end effector \
-		should stop at before the cartesian approach.
 	(this->target_pose.position).x = (x / norm) * (norm - EE_LEN);
 	(this->target_pose.position).y = (y / norm) * (norm - EE_LEN);
 	(this->target_pose).position.z = CUT_HEIGHT;
 
+	// Geometry msgs uses quaternions to assign orientation. \
+		Compute x, y, z, w from the quaternion q to use RPY-parameters.
 	(this->target_pose).orientation.x = q.x();
 	(this->target_pose).orientation.y = q.y();
 	(this->target_pose).orientation.z = q.z();
@@ -208,6 +215,7 @@ moveit::planning_interface::MoveItErrorCode TaskManager::attempt_approach()
 	return this->move_group->execute(this->motion_plan);
 }
 
+	// compute the euclidean length projected onto the xy-plane
 double TaskManager::compute_norm()
 {
 	return sqrt(pow(this->target_pose.position.x, 2) +
